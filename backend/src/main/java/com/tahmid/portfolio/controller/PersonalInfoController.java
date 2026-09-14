@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/personal")
-@CrossOrigin(origins = "*")
 public class PersonalInfoController {
 
 
