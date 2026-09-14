@@ -46,13 +46,16 @@ function Hero(){
 
 
 
+    const backendUrl =
+        "https://tahmid-portfolio-backend.onrender.com";
+
+
 
     const imageUrl = personal?.profileImage
         ? personal.profileImage.startsWith("http")
             ? personal.profileImage
-            : `https://tahmid-portfolio-backend.onrender.com${personal.profileImage}`
+            : `${backendUrl}${personal.profileImage}`
         : null;
-
 
 
 
@@ -83,7 +86,7 @@ items-center
 >
 
 
-{/* LEFT */}
+{/* LEFT SIDE */}
 
 <div>
 
@@ -100,7 +103,6 @@ mb-4
 
 
 
-
 <h1
 className="
 text-5xl
@@ -111,11 +113,7 @@ text-white
 "
 >
 
-{
-personal?.name
-||
-"Tahmid Anjum Mozumder"
-}
+{personal?.name || "Tahmid Anjum Mozumder"}
 
 </h1>
 
@@ -130,11 +128,7 @@ mt-4
 "
 >
 
-{
-personal?.title
-||
-"Machine Learning Engineer"
-}
+{personal?.title || "Machine Learning Engineer"}
 
 </h2>
 
@@ -150,13 +144,12 @@ max-w-xl
 "
 >
 
-{
-personal?.description
-||
+{personal?.description ||
 "Building intelligent systems using Artificial Intelligence, Machine Learning and modern software technologies."
 }
 
 </p>
+
 
 
 
@@ -210,13 +203,15 @@ Get In Touch
 </div>
 
 
+
 </div>
 
 
 
 
 
-{/* RIGHT IMAGE */}
+
+{/* RIGHT SIDE IMAGE */}
 
 
 <div
@@ -244,9 +239,7 @@ justify-center
 
 
 {
-
 imageUrl
-
 ?
 
 <img
@@ -261,8 +254,13 @@ h-full
 object-cover
 "
 
-/>
+onError={(e)=>{
 
+    e.target.style.display="none";
+
+}}
+
+ />
 
 :
 
@@ -277,15 +275,19 @@ object-cover
 </div>
 
 
-</div>
-
-
-
 
 </div>
+
+
+
+
+
+</div>
+
 
 
 </section>
+
 
     )
 
