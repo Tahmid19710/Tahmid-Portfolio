@@ -87,7 +87,8 @@ public class ProjectController {
 
 
 
-    // Add multiple images at once
+
+    // Add multiple images
     @PostMapping("/{projectId}/images/bulk")
     public List<ProjectImage> addImages(
             @PathVariable Long projectId,
@@ -107,6 +108,29 @@ public class ProjectController {
 
 
         return imageRepository.saveAll(images);
+
+    }
+
+
+
+
+    // Delete all images of a project
+    @DeleteMapping("/{projectId}/images")
+    public ResponseEntity<String> deleteProjectImages(
+            @PathVariable Long projectId
+    ){
+
+        Project project = repository
+                .findById(projectId)
+                .orElseThrow();
+
+
+        project.getImages().clear();
+
+        repository.save(project);
+
+
+        return ResponseEntity.ok("Project images deleted");
 
     }
 
