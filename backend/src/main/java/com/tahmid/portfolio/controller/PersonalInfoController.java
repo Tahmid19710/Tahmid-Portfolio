@@ -5,12 +5,12 @@ import com.tahmid.portfolio.entity.PersonalInfo;
 import com.tahmid.portfolio.repository.PersonalInfoRepository;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 
 @RestController
 @RequestMapping("/api/personal")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class PersonalInfoController {
 
 
@@ -25,9 +25,12 @@ public class PersonalInfoController {
     @GetMapping
     public PersonalInfo getPersonalInfo(){
 
-        return repository.findById(1L).get();
+        Optional<PersonalInfo> personalInfo = repository.findById(1L);
+
+        return personalInfo.orElse(null);
 
     }
+
 
 
     @PostMapping
