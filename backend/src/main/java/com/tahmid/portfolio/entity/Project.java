@@ -40,7 +40,8 @@ public class Project {
     @OneToMany(
             mappedBy = "project",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
     )
     private List<ProjectImage> images = new ArrayList<>();
 

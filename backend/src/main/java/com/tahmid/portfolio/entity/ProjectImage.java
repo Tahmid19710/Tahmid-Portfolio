@@ -3,7 +3,7 @@ package com.tahmid.portfolio.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
+import jakarta.persistence.FetchType;
 
 @Entity
 public class ProjectImage {
@@ -18,11 +18,10 @@ public class ProjectImage {
 
 
 
-    @ManyToOne
-    @JoinColumn(name = "project_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="project_id")
     @JsonIgnore
     private Project project;
-
 
 
     public ProjectImage(){
