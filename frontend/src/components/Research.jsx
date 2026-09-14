@@ -12,17 +12,45 @@ function Research(){
     useEffect(()=>{
 
 
-        API.get("/research")
-        .then(response=>{
+        const fetchResearch = async()=>{
 
-            setResearch(response.data);
 
-        })
-        .catch(error=>{
+            try{
 
-            console.log(error);
+                const response = await API.get("/research");
 
-        });
+
+                console.log(
+                    "RESEARCH DATA:",
+                    response.data
+                );
+
+
+                const data = Array.isArray(response.data)
+                    ? response.data
+                    : [];
+
+
+                setResearch(data);
+
+
+            }
+            catch(error){
+
+                console.log(
+                    "Research loading error:",
+                    error
+                );
+
+                setResearch([]);
+
+            }
+
+
+        };
+
+
+        fetchResearch();
 
 
     },[]);
@@ -32,213 +60,224 @@ function Research(){
 
     return(
 
+<section
+id="research"
+className="
+min-h-screen
+px-8
+py-20
+bg-[#09090f]
+"
+>
 
-        <section
-        id="research"
-        className="
-        min-h-screen
-        px-8
-        py-20
-        bg-[#09090f]
-        ">
 
+<div
+className="
+max-w-6xl
+mx-auto
+"
+>
 
-            <div className="
-            max-w-6xl
-            mx-auto">
 
+<h2
+className="
+text-4xl
+font-bold
+text-center
+text-purple-400
+mb-12
+"
+>
+Research
+</h2>
 
 
-                <h2 className="
-                text-4xl
-                font-bold
-                text-center
-                text-purple-400
-                mb-12">
 
-                    Research
 
-                </h2>
+<div
+className="
+grid
+md:grid-cols-2
+gap-8
+"
+>
 
 
+{
 
+research.length === 0
 
-                <div className="
-                grid
-                md:grid-cols-2
-                gap-8">
+?
 
+<p className="text-white">
+No research available
+</p>
 
 
-                {
-                research.map(item=>(
+:
 
 
-                    <div
+research.map(item=>(
 
-                    key={item.id}
 
-                    className="
-                    bg-white/5
-                    border
-                    border-white/10
-                    rounded-3xl
-                    p-6
-                    hover:scale-105
-                    transition
-                    duration-300">
 
+<div
+key={item.id}
 
-                        <h3 className="
-                        text-2xl
-                        font-bold">
+className="
+bg-white/5
+border
+border-white/10
+rounded-3xl
+p-6
+hover:scale-105
+transition
+duration-300
+"
+>
 
-                            {item.title}
 
-                        </h3>
 
+<h3
+className="
+text-2xl
+font-bold
+text-white
+"
+>
+{item.title}
+</h3>
 
 
 
 
-                        <p className="
-                        text-purple-400
-                        mt-3">
+<p
+className="
+text-purple-400
+mt-3
+"
+>
+{item.area}
+</p>
 
-                            {item.area}
 
-                        </p>
 
 
+<p
+className="
+text-gray-400
+mt-4
+"
+>
+{item.description}
+</p>
 
 
 
-                        <p className="
-                        text-gray-400
-                        mt-4">
 
-                            {item.description}
+<div
+className="
+flex
+flex-wrap
+gap-2
+mt-5
+"
+>
 
-                        </p>
 
+{
 
+item.technology &&
 
+item.technology
+.split(",")
+.map((tech,index)=>(
 
 
+<span
+key={index}
 
-                        {/* Technology Tags */}
+className="
+px-3
+py-1
+rounded-full
+bg-purple-600/20
+text-purple-300
+text-sm
+"
+>
 
-                        <div className="
-                        flex
-                        flex-wrap
-                        gap-2
-                        mt-5">
+{tech.trim()}
 
+</span>
 
-                        {
-                        item.technology
-                        .split(",")
-                        .map((tech,index)=>(
 
+))
 
-                            <span
+}
 
-                            key={index}
 
-                            className="
-                            px-3
-                            py-1
-                            rounded-full
-                            bg-purple-600/20
-                            text-purple-300
-                            text-sm">
 
-                                {tech.trim()}
+</div>
 
-                            </span>
 
 
-                        ))
 
-                        }
 
+{
 
-                        </div>
+item.link &&
 
+<a
 
+href={item.link}
 
+target="_blank"
 
+rel="noopener noreferrer"
 
+className="
+inline-block
+mt-6
+px-6
+py-2
+rounded-full
+bg-purple-600
+text-white
+"
 
+>
 
-                        {/* Github Button */}
+🔗 GitHub Repository
 
+</a>
 
-                        {
-                        item.link &&
 
+}
 
-                        <a
 
-                        href={item.link}
 
-                        target="_blank"
+</div>
 
-                        rel="noopener noreferrer"
 
-                        className="
-                        inline-flex
-                        items-center
-                        gap-2
-                        mt-6
-                        px-6
-                        py-2
-                        rounded-full
-                        bg-purple-600
-                        text-white
-                        hover:bg-purple-700
-                        transition">
 
+))
 
-                            <span>
-                                🔗
-                            </span>
 
+}
 
-                            GitHub Repository
 
 
-                        </a>
+</div>
 
 
-                        }
+</div>
 
 
-
-
-                    </div>
-
-
-
-                ))
-                }
-
-
-
-                </div>
-
-
-
-
-            </div>
-
-
-
-        </section>
+</section>
 
 
     )
-
 
 }
 

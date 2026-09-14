@@ -15,12 +15,23 @@ function Skills(){
         API.get("/skills")
         .then(response=>{
 
-            setSkills(response.data);
+
+            const data = response.data;
+
+
+            setSkills(
+                Array.isArray(data)
+                ? data
+                : []
+            );
+
 
         })
         .catch(error=>{
 
+
             console.log(error);
+
 
         });
 
@@ -42,12 +53,14 @@ function Skills(){
         id="skills">
 
 
-            <div className="
+            <div
+            className="
             max-w-5xl
             mx-auto">
 
 
-                <h2 className="
+                <h2
+                className="
                 text-4xl
                 font-bold
                 text-purple-400
@@ -60,7 +73,9 @@ function Skills(){
 
 
 
-                <div className="
+
+                <div
+                className="
                 grid
                 md:grid-cols-2
                 gap-8">
@@ -80,13 +95,15 @@ function Skills(){
                     p-6">
 
 
-                        <div className="
+                        <div
+                        className="
                         flex
                         justify-between
                         mb-3">
 
 
-                            <h3 className="
+                            <h3
+                            className="
                             text-xl
                             font-semibold">
 
@@ -95,7 +112,8 @@ function Skills(){
                             </h3>
 
 
-                            <span className="
+                            <span
+                            className="
                             text-purple-400">
 
                                 {skill.percentage}%
@@ -107,7 +125,10 @@ function Skills(){
 
 
 
-                        <div className="
+
+
+                        <div
+                        className="
                         w-full
                         bg-gray-700
                         rounded-full
@@ -134,7 +155,10 @@ function Skills(){
 
 
 
-                        <p className="
+
+
+                        <p
+                        className="
                         text-gray-400
                         mt-3">
 

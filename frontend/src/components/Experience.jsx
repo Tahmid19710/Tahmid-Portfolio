@@ -12,20 +12,51 @@ function Experience(){
     useEffect(()=>{
 
 
-        API.get("/experience")
-        .then(response=>{
+        const fetchExperience = async()=>{
 
-            setExperiences(response.data);
 
-        })
-        .catch(error=>{
+            try{
 
-            console.log(error);
 
-        });
+                const response = await API.get("/experience");
+
+
+                console.log("EXPERIENCE DATA:", response.data);
+
+
+
+                const experienceData = Array.isArray(response.data)
+                    ? response.data
+                    : [];
+
+
+
+                setExperiences(experienceData);
+
+
+
+            }
+            catch(error){
+
+
+                console.log("Experience loading error:",error);
+
+                setExperiences([]);
+
+
+            }
+
+
+        };
+
+
+
+        fetchExperience();
+
 
 
     },[]);
+
 
 
 
@@ -55,9 +86,12 @@ function Experience(){
                 text-purple-400
                 mb-16">
 
+
                     Experience
 
+
                 </h2>
+
 
 
 
@@ -69,8 +103,22 @@ function Experience(){
                 ml-4">
 
 
+
                 {
+                experiences.length === 0 ?
+
+
+                <p className="text-white ml-8">
+                    No experience available
+                </p>
+
+
+                :
+
+
+
                 experiences.map(exp=>(
+
 
 
                     <div
@@ -80,7 +128,7 @@ function Experience(){
                     ml-8">
 
 
-                        {/* Timeline Dot */}
+                        
 
                         <div className="
                         absolute
@@ -91,8 +139,10 @@ function Experience(){
                         bg-purple-600
                         border-4
                         border-[#09090f]">
-                        
+
+
                         </div>
+
 
 
 
@@ -108,13 +158,19 @@ function Experience(){
 
 
 
+
+
                             <h3 className="
                             text-2xl
-                            font-bold">
+                            font-bold
+                            text-white">
+
 
                                 {exp.position}
 
+
                             </h3>
+
 
 
 
@@ -124,9 +180,12 @@ function Experience(){
                             text-lg
                             mt-2">
 
+
                                 {exp.company}
 
+
                             </h4>
+
 
 
 
@@ -135,9 +194,13 @@ function Experience(){
                             text-gray-400
                             mt-2">
 
+
                                 {exp.duration}
 
+
                             </p>
+
+
 
 
 
@@ -146,11 +209,20 @@ function Experience(){
                             text-gray-300
                             mt-4">
 
+
                                 {exp.description}
+
 
                             </p>
 
 
+
+
+
+
+
+                            {
+                            exp.technology &&
 
 
                             <div className="
@@ -178,34 +250,50 @@ function Experience(){
                                 text-purple-300
                                 text-sm">
 
+
                                     {tech.trim()}
+
 
                                 </span>
 
 
                             ))
+
                             }
 
 
                             </div>
+
+                            }
+
+
+
 
 
 
                         </div>
 
 
+
+
                     </div>
 
 
                 ))
+
+
                 }
+
 
 
                 </div>
 
 
 
+
+
             </div>
+
 
 
         </section>
@@ -214,8 +302,8 @@ function Experience(){
     )
 
 
-
 }
+
 
 
 export default Experience;

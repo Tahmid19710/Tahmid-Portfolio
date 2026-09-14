@@ -14,38 +14,70 @@ function Projects(){
     useEffect(()=>{
 
 
-        API.get("/projects")
-        .then(response=>{
+        const fetchProjects = async()=>{
 
 
-            setProjects(response.data);
+            try{
 
 
-            const initialImages = {};
+                const response = await API.get("/projects");
 
 
-            response.data.forEach(project=>{
+                console.log("PROJECT DATA:", response.data);
 
 
-                if(project.images && project.images.length > 0){
 
-                    initialImages[project.id] = 0;
-
-                }
-
-
-            });
+                const projectData = Array.isArray(response.data)
+                    ? response.data
+                    : [];
 
 
-            setCurrentImage(initialImages);
+
+                setProjects(projectData);
 
 
-        })
-        .catch(error=>{
 
-            console.log(error);
+                const initialImages = {};
 
-        });
+
+                projectData.forEach(project=>{
+
+
+                    if(project.images && project.images.length > 0){
+
+                        initialImages[project.id] = 0;
+
+                    }
+
+
+                });
+
+
+                setCurrentImage(initialImages);
+
+
+
+            }
+            catch(error){
+
+
+                console.log(
+                    "Project loading error:",
+                    error
+                );
+
+
+                setProjects([]);
+
+
+            }
+
+
+        };
+
+
+
+        fetchProjects();
 
 
     },[]);
@@ -53,7 +85,7 @@ function Projects(){
 
 
 
-    // Auto slide
+
 
     useEffect(()=>{
 
@@ -67,6 +99,7 @@ function Projects(){
                 const updated = {...prev};
 
 
+
                 projects.forEach(project=>{
 
 
@@ -74,7 +107,7 @@ function Projects(){
 
 
                         updated[project.id] =
-                        ((updated[project.id] || 0) + 1)
+                        ((updated[project.id] || 0)+1)
                         %
                         project.images.length;
 
@@ -85,10 +118,12 @@ function Projects(){
                 });
 
 
+
                 return updated;
 
 
             });
+
 
 
         },4000);
@@ -98,21 +133,26 @@ function Projects(){
         return ()=>clearInterval(interval);
 
 
+
     },[projects]);
 
 
 
 
 
-    const nextImage = (projectId,total)=>{
+
+    const nextImage=(id,total)=>{
 
 
         setCurrentImage(prev=>({
 
+
             ...prev,
 
-            [projectId]:
-            ((prev[projectId] || 0)+1)%total
+
+            [id]:
+            ((prev[id] || 0)+1)%total
+
 
         }));
 
@@ -123,15 +163,19 @@ function Projects(){
 
 
 
-    const previousImage = (projectId,total)=>{
+
+    const previousImage=(id,total)=>{
 
 
         setCurrentImage(prev=>({
 
+
             ...prev,
 
-            [projectId]:
-            ((prev[projectId] || 0)-1+total)%total
+
+            [id]:
+            ((prev[id] || 0)-1+total)%total
+
 
         }));
 
@@ -142,409 +186,408 @@ function Projects(){
 
 
 
-    return(
 
 
-        <section
-        id="projects"
-        className="
-        min-h-screen
-        px-8
-        py-20
-        bg-[#09090f]
-        ">
+return(
 
 
-            <div className="
-            max-w-6xl
-            mx-auto">
+<section
+id="projects"
+className="
+min-h-screen
+px-8
+py-20
+bg-[#09090f]
+"
+>
 
 
-                <h2 className="
-                text-4xl
-                font-bold
-                text-center
-                text-purple-400
-                mb-12">
+<div className="max-w-6xl mx-auto">
 
-                    Projects
 
-                </h2>
+<h2
+className="
+text-4xl
+font-bold
+text-center
+text-purple-400
+mb-12
+"
+>
+Projects
+</h2>
 
 
 
 
 
-                <div className="
-                grid
-                md:grid-cols-2
-                gap-8">
+<div
+className="
+grid
+md:grid-cols-2
+gap-8
+"
+>
 
 
+{
 
-                {
-                projects.map(project=>(
 
+projects.length === 0
 
-                    <div
-                    key={project.id}
-                    className="
-                    bg-white/5
-                    border
-                    border-white/10
-                    rounded-3xl
-                    overflow-hidden
-                    hover:scale-105
-                    transition duration-300">
+?
 
+<p className="text-white">
+No projects available
+</p>
 
 
+:
 
 
-                        {/* Image Section */}
+projects.map(project=>{
 
 
-                        <div
-                        className="
-                        h-72
-                        bg-black
-                        relative
-                        flex
-                        items-center
-                        justify-center">
+const imageIndex = currentImage[project.id] || 0;
 
+const image =
+project.images &&
+project.images.length > 0
+?
+project.images[imageIndex]?.imageName
+:
+null;
 
-                        {
-                        project.images &&
-                        project.images.length > 0 ?
 
 
-                        <img
+return(
 
-                        src={
-                        `/images/${
-                        project.images[
-                        currentImage[project.id] || 0
-                        ].imageName
-                        }`
-                        }
 
-                        alt={project.title}
+<div
+key={project.id}
 
-                        className="
-                        w-full
-                        h-full
-                        object-contain
-                        transition duration-500
-                        "
+className="
+bg-white/5
+border
+border-white/10
+rounded-3xl
+overflow-hidden
+"
+>
 
-                        />
 
 
-                        :
+<div
+className="
+h-72
+bg-black
+relative
+flex
+items-center
+justify-center
+"
+>
 
-                        <span className="text-6xl">
-                            🚀
-                        </span>
 
-                        }
+{
 
 
+image
 
+?
 
-                        {
-                        project.images &&
-                        project.images.length > 1 &&
+<img
 
-                        <>
+src={`/images/${image}`}
 
+alt={project.title}
 
-                        <button
+className="
+w-full
+h-full
+object-contain
+"
 
-                        onClick={()=>previousImage(
-                            project.id,
-                            project.images.length
-                        )}
+/>
 
-                        className="
-                        absolute
-                        left-3
-                        bg-black/60
-                        text-white
-                        px-3
-                        py-2
-                        rounded-full
-                        hover:bg-purple-600">
 
-                            ❮
+:
 
-                        </button>
-
-
-
-
-                        <button
-
-                        onClick={()=>nextImage(
-                            project.id,
-                            project.images.length
-                        )}
-
-                        className="
-                        absolute
-                        right-3
-                        bg-black/60
-                        text-white
-                        px-3
-                        py-2
-                        rounded-full
-                        hover:bg-purple-600">
-
-                            ❯
-
-                        </button>
-
-
-                        </>
-
-
-                        }
-
-
-
-
-                        {/* Image dots */}
-
-                        {
-                        project.images &&
-                        project.images.length > 1 &&
-
-
-                        <div className="
-                        absolute
-                        bottom-3
-                        flex
-                        gap-2">
-
-
-                        {
-                        project.images.map((img,index)=>(
-
-
-                            <button
-
-                            key={index}
-
-                            onClick={()=>setCurrentImage(prev=>({
-
-                                ...prev,
-                                [project.id]:index
-
-                            }))}
-
-                            className={`
-                            w-3
-                            h-3
-                            rounded-full
-                            ${
-                            currentImage[project.id]===index
-                            ?
-                            "bg-purple-500"
-                            :
-                            "bg-gray-400"
-                            }
-                            `}
-
-                            >
-
-
-                            </button>
-
-
-                        ))
-
-                        }
-
-
-                        </div>
-
-
-                        }
-
-
-
-                        </div>
-
-
-
-
-
-                        {/* Content */}
-
-
-                        <div className="p-6">
-
-
-
-                            <h3 className="
-                            text-2xl
-                            font-bold">
-
-                                {project.title}
-
-                            </h3>
-
-
-
-
-
-                            <p className="
-                            text-gray-400
-                            mt-3">
-
-                                {project.description}
-
-                            </p>
-
-
-
-
-
-                            {/* Technology Tags */}
-
-
-                            <div className="
-                            flex
-                            flex-wrap
-                            gap-2
-                            mt-4">
-
-
-                            {
-                            project.technology
-                            .split(",")
-                            .map((tech,index)=>(
-
-
-                                <span
-
-                                key={index}
-
-                                className="
-                                px-3
-                                py-1
-                                rounded-full
-                                bg-purple-600/20
-                                text-purple-300
-                                text-sm">
-
-
-                                    {tech.trim()}
-
-
-                                </span>
-
-
-                            ))
-
-                            }
-
-
-                            </div>
-
-
-
-
-
-                            <div className="
-                            flex
-                            gap-4
-                            mt-6">
-
-
-
-                                <a
-
-                                href={project.githubLink}
-
-                                target="_blank"
-
-                                className="
-                                px-5
-                                py-2
-                                rounded-full
-                                bg-purple-600
-                                text-white">
-
-                                    GitHub
-
-                                </a>
-
-
-
-
-
-                                {
-                                project.demoLink &&
-
-
-                                <a
-
-                                href={project.demoLink}
-
-                                target="_blank"
-
-                                className="
-                                px-5
-                                py-2
-                                rounded-full
-                                border">
-
-
-                                    Demo
-
-
-                                </a>
-
-
-                                }
-
-
-
-                            </div>
-
-
-
-                        </div>
-
-
-
-                    </div>
-
-
-
-                ))
-
-                }
-
-
-
-                </div>
-
-
-
-            </div>
-
-
-
-        </section>
-
-
-    )
+<span className="text-6xl">
+🚀
+</span>
 
 
 }
 
+
+
+
+
+
+{
+
+
+project.images &&
+project.images.length > 1 &&
+
+
+<>
+
+
+<button
+
+onClick={()=>previousImage(
+project.id,
+project.images.length
+)}
+
+className="
+absolute
+left-3
+bg-black/60
+text-white
+px-3
+py-2
+rounded-full
+"
+>
+
+❮
+
+</button>
+
+
+
+
+<button
+
+onClick={()=>nextImage(
+project.id,
+project.images.length
+)}
+
+className="
+absolute
+right-3
+bg-black/60
+text-white
+px-3
+py-2
+rounded-full
+"
+>
+
+❯
+
+</button>
+
+
+</>
+
+
+}
+
+
+
+</div>
+
+
+
+
+
+
+
+<div className="p-6">
+
+
+<h3
+className="
+text-2xl
+font-bold
+text-white
+"
+>
+
+{project.title}
+
+</h3>
+
+
+
+
+<p
+className="
+text-gray-400
+mt-3
+"
+>
+
+{project.description}
+
+</p>
+
+
+
+
+
+<div
+className="
+flex
+flex-wrap
+gap-2
+mt-4
+"
+>
+
+
+{
+
+
+project.technology &&
+
+project.technology
+.split(",")
+.map((tech,index)=>(
+
+
+<span
+
+key={index}
+
+className="
+px-3
+py-1
+rounded-full
+bg-purple-600/20
+text-purple-300
+text-sm
+"
+>
+
+{tech.trim()}
+
+</span>
+
+
+))
+
+
+}
+
+
+
+</div>
+
+
+
+
+
+
+<div
+className="
+flex
+gap-4
+mt-6
+"
+>
+
+
+<a
+
+href={project.githubLink}
+
+target="_blank"
+
+rel="noreferrer"
+
+className="
+px-5
+py-2
+rounded-full
+bg-purple-600
+text-white
+"
+
+>
+
+GitHub
+
+</a>
+
+
+
+
+
+{
+
+
+project.demoLink &&
+
+
+<a
+
+href={project.demoLink}
+
+target="_blank"
+
+rel="noreferrer"
+
+className="
+px-5
+py-2
+rounded-full
+border
+text-white
+"
+
+>
+
+Demo
+
+</a>
+
+
+}
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+)
+
+
+})
+
+
+}
+
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+)
+
+
+
+}
 
 
 export default Projects;

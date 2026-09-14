@@ -9,27 +9,66 @@ function Education(){
 
 
 
+
     useEffect(()=>{
 
 
-        API.get("/education")
-        .then(response=>{
+        const fetchEducation = async()=>{
 
-            setEducation(response.data);
 
-        })
-        .catch(error=>{
+            try{
 
-            console.log(error);
 
-        });
+                const response = await API.get("/education");
+
+
+                console.log("EDUCATION DATA:", response.data);
+
+
+
+
+                const educationData = Array.isArray(response.data)
+                    ? response.data
+                    : [];
+
+
+
+                setEducation(educationData);
+
+
+
+            }
+            catch(error){
+
+
+                console.log("Education loading error:", error);
+
+                setEducation([]);
+
+
+            }
+
+
+
+        };
+
+
+
+        fetchEducation();
+
 
 
     },[]);
 
 
 
+
+
+
+
     return(
+
+
 
         <section
         id="education"
@@ -41,9 +80,14 @@ function Education(){
         ">
 
 
+
             <div className="
             max-w-5xl
             mx-auto">
+
+
+
+
 
 
                 <h2 className="
@@ -53,9 +97,17 @@ function Education(){
                 text-center
                 mb-12">
 
+
                     Education
 
+
                 </h2>
+
+
+
+
+
+
 
 
 
@@ -66,12 +118,32 @@ function Education(){
                 ml-5">
 
 
+
+
+
                 {
-                    education.map(item=>(
+
+
+                education.length === 0 ?
+
+
+                <p className="text-white ml-8">
+                    No education data available
+                </p>
+
+
+                :
+
+
+
+                education.map(item=>(
+
 
 
                     <div
+
                     key={item.id}
+
                     className="
                     ml-8
                     bg-white/5
@@ -80,6 +152,11 @@ function Education(){
                     rounded-2xl
                     p-6
                     ">
+
+
+
+
+
 
 
                         <div className="
@@ -96,13 +173,25 @@ function Education(){
 
 
 
+
+
+
+
+
                         <h3 className="
                         text-2xl
-                        font-bold">
+                        font-bold
+                        text-white">
+
 
                             {item.degree}
 
+
                         </h3>
+
+
+
+
 
 
 
@@ -110,9 +199,16 @@ function Education(){
                         text-purple-400
                         mt-2">
 
+
                             {item.institution}
 
+
                         </h4>
+
+
+
+
+
 
 
 
@@ -120,9 +216,16 @@ function Education(){
                         text-gray-400
                         mt-2">
 
+
                             {item.duration}
 
+
                         </p>
+
+
+
+
+
 
 
 
@@ -130,32 +233,58 @@ function Education(){
                         text-gray-300
                         mt-4">
 
+
                             {item.description}
 
+
                         </p>
+
+
+
 
 
 
                     </div>
 
 
-                    ))
+
+
+
+                ))
+
+
+
                 }
+
+
+
 
 
                 </div>
 
 
+
+
+
+
+
             </div>
 
 
+
+
+
+
+
         </section>
+
 
 
     )
 
 
 }
+
 
 
 export default Education;
