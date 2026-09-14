@@ -46,6 +46,16 @@ function Hero(){
 
 
 
+
+    const imageUrl = personal?.profileImage
+        ? personal.profileImage.startsWith("http")
+            ? personal.profileImage
+            : `https://tahmid-portfolio-backend.onrender.com${personal.profileImage}`
+        : null;
+
+
+
+
     return(
 
 <section
@@ -57,7 +67,8 @@ items-center
 px-8
 pt-20
 bg-[#09090f]
-">
+"
+>
 
 
 <div
@@ -89,6 +100,7 @@ mb-4
 
 
 
+
 <h1
 className="
 text-5xl
@@ -100,12 +112,13 @@ text-white
 >
 
 {
-personal?.name 
+personal?.name
 ||
 "Tahmid Anjum Mozumder"
 }
 
 </h1>
+
 
 
 
@@ -118,12 +131,13 @@ mt-4
 >
 
 {
-personal?.title 
+personal?.title
 ||
 "Machine Learning Engineer"
 }
 
 </h2>
+
 
 
 
@@ -143,6 +157,7 @@ personal?.description
 }
 
 </p>
+
 
 
 
@@ -172,6 +187,7 @@ View My Work
 
 
 
+
 <a
 href="#contact"
 className="
@@ -190,6 +206,7 @@ Get In Touch
 </a>
 
 
+
 </div>
 
 
@@ -200,6 +217,7 @@ Get In Touch
 
 
 {/* RIGHT IMAGE */}
+
 
 <div
 className="
@@ -226,13 +244,14 @@ justify-center
 
 
 {
-personal?.profileImage
+
+imageUrl
 
 ?
 
 <img
 
-src={personal.profileImage}
+src={imageUrl}
 
 alt="Tahmid"
 
@@ -254,10 +273,12 @@ object-cover
 }
 
 
+
 </div>
 
 
 </div>
+
 
 
 
