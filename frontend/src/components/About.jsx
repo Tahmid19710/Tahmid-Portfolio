@@ -111,7 +111,7 @@ personal?.name ||
 }, a {
 
 personal?.title ||
-"Machine Learning Engineer"
+"Computer Engineer"
 
 } passionate about building intelligent systems using Artificial Intelligence,
 Machine Learning, and modern software technologies.
@@ -282,7 +282,7 @@ Research Interest
 
 <p className="text-gray-300 mt-2">
 
-Artificial Intelligence,
+Security and Privacy,
 Machine Learning,
 Deep Learning,
 Computer Vision
