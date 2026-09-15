@@ -1,230 +1,376 @@
+import { useEffect, useState } from "react";
+import API from "../services/api";
+
+
 function About(){
 
 
-    const cards = [
+    const [personal,setPersonal] = useState(null);
 
-        {
-            title:"Machine Learning",
-            description:"AI, Deep Learning, Data Science"
-        },
 
-        {
-            title:"Software Development",
-            description:"Spring Boot, React, Database"
-        },
 
-        {
-            title:"Research",
-            description:"AI Research and Innovation"
-        }
+    useEffect(()=>{
 
-    ];
+
+        const fetchPersonal = async()=>{
+
+
+            try{
+
+
+                const response = await API.get("/personal");
+
+
+                setPersonal(response.data);
+
+
+            }
+            catch(error){
+
+                console.log("About loading error:",error);
+
+            }
+
+
+        };
+
+
+        fetchPersonal();
+
+
+    },[]);
+
+
 
 
 
     return(
 
 
-        <section
+<section
+id="about"
+className="
+min-h-screen
+px-8
+py-20
+bg-[#09090f]
+">
 
-        id="about"
 
-        className="
-        min-h-screen
-        px-8
-        py-20
-        bg-[#09090f]
-        ">
+<div
+className="
+max-w-6xl
+mx-auto
+">
 
 
+<h2
+className="
+text-4xl
+font-bold
+text-purple-400
+text-center
+mb-12
+">
 
-            <div
+About Me
 
-            className="
-            max-w-5xl
-            mx-auto
-            ">
+</h2>
 
 
 
 
 
-                <h2
+<div
+className="
+grid
+md:grid-cols-2
+gap-10
+items-center
+">
 
-                className="
-                text-4xl
-                font-bold
-                text-center
-                text-purple-400
-                mb-10
-                ">
 
 
-                    About Me
 
 
-                </h2>
+<div>
 
 
+<p
+className="
+text-gray-300
+text-lg
+leading-relaxed
+">
 
+I am {
 
+personal?.name ||
+"Tahmid Anjum Mozumder"
 
+}, a {
 
+personal?.title ||
+"Machine Learning Engineer"
 
+} passionate about building intelligent systems using Artificial Intelligence,
+Machine Learning, and modern software technologies.
 
-                <div
+</p>
 
-                className="
-                bg-white/5
-                border
-                border-white/10
-                rounded-3xl
-                p-10
-                backdrop-blur-md
-                ">
 
 
+<p
+className="
+text-gray-300
+text-lg
+leading-relaxed
+mt-5
+">
 
+My interests include Machine Learning, Deep Learning,
+Computer Vision, and developing AI-based solutions
+for real-world engineering problems.
 
+</p>
 
 
 
-                    <p
+<p
+className="
+text-gray-300
+text-lg
+leading-relaxed
+mt-5
+">
 
-                    className="
-                    text-gray-300
-                    text-lg
-                    leading-8
-                    ">
+I enjoy designing data-driven systems, exploring
+research ideas, and building scalable software
+applications.
 
+</p>
 
 
-                    I am Tahmid Anjum Mozumder, 
-                    a Machine Learning Engineer and 
-                    Full Stack Developer passionate about 
-                    building intelligent systems using 
-                    Artificial Intelligence, 
-                    Machine Learning and modern software 
-                    technologies.
 
 
 
-                    </p>
+<div
+className="
+flex
+gap-4
+mt-8
+">
 
 
+{
+personal?.cvLink &&
 
+<a
 
+href={personal.cvLink}
 
+target="_blank"
 
+className="
+px-6
+py-3
+rounded-full
+bg-purple-600
+text-white
+">
 
+Download CV
 
+</a>
 
-                    <div
+}
 
-                    className="
-                    grid
-                    md:grid-cols-3
-                    gap-6
-                    mt-10
-                    ">
 
 
+{
+personal?.github &&
 
-                    {
+<a
 
-                    cards.map((card,index)=>(
+href={personal.github}
 
+target="_blank"
 
-                        <div
+className="
+px-6
+py-3
+rounded-full
+border
+border-gray-500
+text-white
+">
 
-                        key={index}
+GitHub
 
-                        className="
-                        p-6
-                        bg-purple-600/20
-                        rounded-2xl
-                        hover:scale-105
-                        transition
-                        duration-300
-                        ">
+</a>
 
+}
 
 
 
-                            <h3
 
-                            className="
-                            text-xl
-                            font-bold
-                            text-white
-                            ">
+{
+personal?.linkedin &&
 
+<a
 
-                                {card.title}
+href={personal.linkedin}
 
+target="_blank"
 
-                            </h3>
+className="
+px-6
+py-3
+rounded-full
+border
+border-gray-500
+text-white
+">
 
+LinkedIn
 
+</a>
 
+}
 
 
+</div>
 
-                            <p
 
-                            className="
-                            text-gray-400
-                            mt-2
-                            ">
 
 
-                                {card.description}
+</div>
 
 
-                            </p>
 
 
 
 
 
-                        </div>
+<div
+className="
+bg-white/5
+border
+border-white/10
+rounded-3xl
+p-8
+">
 
 
+<div className="space-y-6">
 
-                    ))
 
-                    }
 
+<div>
 
+<h3
+className="
+text-purple-400
+text-xl
+font-semibold
+">
 
-                    </div>
+Research Interest
 
+</h3>
 
 
+<p className="text-gray-300 mt-2">
 
+Artificial Intelligence,
+Machine Learning,
+Deep Learning,
+Computer Vision
 
+</p>
 
+</div>
 
-                </div>
 
 
 
 
+<div>
 
+<h3
+className="
+text-purple-400
+text-xl
+font-semibold
+">
 
+Current Focus
 
-            </div>
+</h3>
 
 
+<p className="text-gray-300 mt-2">
 
+Developing intelligent systems and
+AI-driven applications.
 
+</p>
 
+</div>
 
-        </section>
+
+
+
+
+
+<div>
+
+<h3
+className="
+text-purple-400
+text-xl
+font-semibold
+">
+
+Technologies
+
+</h3>
+
+
+<p className="text-gray-300 mt-2">
+
+Python, Java, React,
+Spring Boot, SQL,
+TensorFlow, PyTorch
+
+</p>
+
+</div>
+
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+</section>
 
 
     )
-
 
 }
 

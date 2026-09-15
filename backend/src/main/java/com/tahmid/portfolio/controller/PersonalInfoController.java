@@ -25,9 +25,7 @@ public class PersonalInfoController {
     @GetMapping
     public PersonalInfo getPersonalInfo() {
 
-        return repository.findAll()
-                .stream()
-                .findFirst()
+        return repository.findTopByOrderByIdDesc()
                 .orElse(null);
 
     }
