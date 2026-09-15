@@ -22,9 +22,9 @@ return(
 <Skills/>
 <Projects/>
 <Education/>
-<Contact/>
 <Experience/>
 <Research/>
+<Contact/>
 
 </>
 

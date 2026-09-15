@@ -1,5 +1,5 @@
 import { useState } from "react";
-import API from "../services/api";
+import emailjs from "@emailjs/browser";
 
 
 function Contact(){
@@ -20,14 +20,12 @@ function Contact(){
 
     const handleChange = (e)=>{
 
-
         setFormData({
 
             ...formData,
             [e.target.name]: e.target.value
 
         });
-
 
     };
 
@@ -47,11 +45,30 @@ function Contact(){
         try{
 
 
-            await API.post("/contact",formData);
+            await emailjs.send(
+
+                "service_pb5ald7",
+
+                "template_wteqpjc",
+
+                {
+
+                    name: formData.name,
+
+                    email: formData.email,
+
+                    message: formData.message
+
+                },
+
+                "9YPTr_Ft1jdA8ZNDc"
+
+            );
 
 
 
             alert("Message sent successfully!");
+
 
 
             setFormData({
@@ -84,6 +101,7 @@ function Contact(){
 
 
     };
+
 
 
 
