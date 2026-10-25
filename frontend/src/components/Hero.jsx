@@ -1,297 +1,62 @@
-import { useEffect, useState } from "react";
-import API from "../services/api";
 
+function Hero() {
+  return (
+    <section
+      id="home"
+      className="min-h-screen flex items-center px-8 pt-20 bg-[#09090f]"
+    >
+      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <p className="text-purple-400 text-xl mb-4">
+            👋 Hello, I'm
+          </p>
 
-function Hero(){
+          <h1 className="text-5xl md:text-6xl font-bold leading-tight text-white">
+            Tahmid Anjum Mozumder
+          </h1>
 
-    const [personal,setPersonal] = useState(null);
+          <h2 className="text-2xl md:text-3xl text-purple-400 mt-4">
+            Full Stack Developer | AI & Machine Learning Enthusiast
+          </h2>
 
+          <p className="text-gray-400 text-lg mt-6 max-w-xl">
+            Computer Science and Engineering graduate passionate
+            about building intelligent systems, machine learning
+            applications, and modern web software.
+          </p>
 
-    useEffect(()=>{
+          <div className="flex flex-wrap gap-5 mt-8">
+            <a
+              href="#projects"
+              className="bg-purple-600 px-8 py-3 rounded-full text-white hover:bg-purple-700"
+            >
+              View My Work
+            </a>
 
-        const fetchPersonal = async()=>{
+            <a
+              href="#contact"
+              className="border border-gray-500 px-8 py-3 rounded-full text-white hover:bg-white hover:text-black"
+            >
+              Get In Touch
+            </a>
+          </div>
+        </div>
 
-            try{
-
-                const response = await API.get("/personal");
-
-                console.log("PERSONAL DATA:", response.data);
-
-
-                const data = Array.isArray(response.data)
-                    ? response.data[0]
-                    : response.data;
-
-
-                setPersonal(data);
-
-
-            }
-            catch(error){
-
-                console.log(
-                    "Personal info loading error:",
-                    error
-                );
-
-            }
-
-        };
-
-
-        fetchPersonal();
-
-
-    },[]);
-
-
-
-    const backendUrl =
-        "https://tahmid-portfolio-backend.onrender.com";
-
-
-
-    const imageUrl = personal?.profileImage
-        ? personal.profileImage.startsWith("http")
-            ? personal.profileImage
-            : `${backendUrl}${personal.profileImage}`
-        : null;
-
-
-
-    return(
-
-<section
-id="home"
-className="
-min-h-screen
-flex
-items-center
-px-8
-pt-20
-bg-[#09090f]
-"
->
-
-
-<div
-className="
-max-w-7xl
-mx-auto
-grid
-md:grid-cols-2
-gap-10
-items-center
-"
->
-
-
-{/* LEFT SIDE */}
-
-<div>
-
-
-<p
-className="
-text-purple-400
-text-xl
-mb-4
-"
->
-👋 Hello, I'm
-</p>
-
-
-
-<h1
-className="
-text-5xl
-md:text-6xl
-font-bold
-leading-tight
-text-white
-"
->
-
-{personal?.name || "Tahmid Anjum Mozumder"}
-
-</h1>
-
-
-
-
-<h2
-className="
-text-3xl
-text-purple-400
-mt-4
-"
->
-
-{personal?.title || "Machine Learning Engineer"}
-
-</h2>
-
-
-
-
-<p
-className="
-text-gray-400
-text-lg
-mt-6
-max-w-xl
-"
->
-
-{personal?.description ||
-"Building intelligent systems using Artificial Intelligence, Machine Learning and modern software technologies."
+        <div className="flex justify-center">
+          <div className="w-72 h-72 md:w-80 md:h-80 rounded-full overflow-hidden border border-purple-500 bg-purple-600/20 flex items-center justify-center">
+            <img
+              src="/images/profile.jpeg"
+              alt="Tahmid Anjum Mozumder"
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
-
-</p>
-
-
-
-
-
-<div
-className="
-flex
-gap-5
-mt-8
-"
->
-
-
-<a
-href="#projects"
-className="
-bg-purple-600
-px-8
-py-3
-rounded-full
-hover:bg-purple-700
-transition
-text-white
-"
->
-View My Work
-</a>
-
-
-
-
-<a
-href="#contact"
-className="
-border
-border-gray-500
-px-8
-py-3
-rounded-full
-hover:bg-white
-hover:text-black
-transition
-text-white
-"
->
-Get In Touch
-</a>
-
-
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-
-{/* RIGHT SIDE IMAGE */}
-
-
-<div
-className="
-flex
-justify-center
-"
->
-
-
-<div
-className="
-w-80
-h-80
-rounded-full
-overflow-hidden
-border
-border-purple-500
-bg-purple-600/20
-flex
-items-center
-justify-center
-"
->
-
-
-{
-imageUrl
-?
-
-<img
-
-src={imageUrl}
-
-alt="Tahmid"
-
-className="
-w-full
-h-full
-object-cover
-"
-
-onError={(e)=>{
-
-    e.target.style.display="none";
-
-}}
-
- />
-
-:
-
-<span className="text-7xl">
-👨‍💻
-</span>
-
-}
-
-
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-</div>
-
-
-
-</section>
-
-
-    )
-
-}
-
 
 export default Hero;
