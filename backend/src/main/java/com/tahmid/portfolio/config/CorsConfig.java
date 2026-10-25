@@ -1,24 +1,22 @@
-package com.tahmid.portfolio.config;
 
+package com.tahmid.portfolio.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
 
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-
 
         registry.addMapping("/**")
                 .allowedOrigins(
                         "http://localhost:5173",
                         "https://tahmid-portfolio-five.vercel.app",
-                        "https://tahmid-portfolio-rcumxsmla-tahmid19710-9576.vercel.app"
+                        "https://tahmid-portfolio-rcumxsmla-tahmid19710-9576.vercel.app",
+                        "https://tahmid-anjum-mozumder.vercel.app"
                 )
                 .allowedMethods(
                         "GET",
@@ -29,7 +27,5 @@ public class CorsConfig implements WebMvcConfigurer {
                 )
                 .allowedHeaders("*")
                 .allowCredentials(true);
-
     }
-
 }
