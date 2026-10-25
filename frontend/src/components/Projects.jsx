@@ -299,7 +299,9 @@ image
 <img
 
 
-src={`https://tahmid-portfolio-backend.onrender.com/images/${image}`}
+src={`/images/${image}`}
+
+
 
 
 
