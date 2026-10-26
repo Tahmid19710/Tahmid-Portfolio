@@ -1,309 +1,90 @@
+
 import { useEffect, useState } from "react";
 import API from "../services/api";
 
-
-function Experience(){
-
-
-    const [experiences,setExperiences] = useState([]);
-
-
-
-    useEffect(()=>{
-
-
-        const fetchExperience = async()=>{
-
-
-            try{
-
-
-                const response = await API.get("/experience");
-
-
-                console.log("EXPERIENCE DATA:", response.data);
-
-
-
-                const experienceData = Array.isArray(response.data)
-                    ? response.data
-                    : [];
-
-
-
-                setExperiences(experienceData);
-
-
-
-            }
-            catch(error){
-
-
-                console.log("Experience loading error:",error);
-
-                setExperiences([]);
-
-
-            }
-
-
-        };
-
-
-
-        fetchExperience();
-
-
-
-    },[]);
-
-
-
-
-
-    return(
-
-
-        <section
-        id="experience"
-        className="
-        min-h-screen
-        px-8
-        py-20
-        bg-[#09090f]
-        ">
-
-
-            <div className="
-            max-w-5xl
-            mx-auto">
-
-
-                <h2 className="
-                text-4xl
-                font-bold
-                text-center
-                text-purple-400
-                mb-16">
-
-
-                    Experience
-
-
-                </h2>
-
-
-
-
-
-                <div className="
-                relative
-                border-l
-                border-purple-500
-                ml-4">
-
-
-
-                {
-                experiences.length === 0 ?
-
-
-                <p className="text-white ml-8">
-                    No experience available
-                </p>
-
-
-                :
-
-
-
-                experiences.map(exp=>(
-
-
-
-                    <div
-                    key={exp.id}
-                    className="
-                    mb-12
-                    ml-8">
-
-
-                        
-
-                        <div className="
-                        absolute
-                        -left-3
-                        w-6
-                        h-6
-                        rounded-full
-                        bg-purple-600
-                        border-4
-                        border-[#09090f]">
-
-
-                        </div>
-
-
-
-
-
-                        <div className="
-                        bg-white/5
-                        border
-                        border-white/10
-                        rounded-3xl
-                        p-6
-                        hover:scale-105
-                        transition">
-
-
-
-
-
-                            <h3 className="
-                            text-2xl
-                            font-bold
-                            text-white">
-
-
-                                {exp.position}
-
-
-                            </h3>
-
-
-
-
-
-                            <h4 className="
-                            text-purple-400
-                            text-lg
-                            mt-2">
-
-
-                                {exp.company}
-
-
-                            </h4>
-
-
-
-
-
-                            <p className="
-                            text-gray-400
-                            mt-2">
-
-
-                                {exp.duration}
-
-
-                            </p>
-
-
-
-
-
-
-                            <p className="
-                            text-gray-300
-                            mt-4">
-
-
-                                {exp.description}
-
-
-                            </p>
-
-
-
-
-
-
-
-                            {
-                            exp.technology &&
-
-
-                            <div className="
-                            flex
-                            flex-wrap
-                            gap-2
-                            mt-4">
-
-
-                            {
-                            exp.technology
-                            .split(",")
-                            .map((tech,index)=>(
-
-
-                                <span
-
-                                key={index}
-
-                                className="
-                                px-3
-                                py-1
-                                rounded-full
-                                bg-purple-600/20
-                                text-purple-300
-                                text-sm">
-
-
-                                    {tech.trim()}
-
-
-                                </span>
-
-
-                            ))
-
-                            }
-
-
-                            </div>
-
-                            }
-
-
-
-
-
-
-                        </div>
-
-
-
-
-                    </div>
-
-
-                ))
-
-
-                }
-
-
-
-                </div>
-
-
-
-
-
+const FALLBACK_EXPERIENCE = [
+  {
+    id: 1,
+    company: "Islami Bank Bangladesh PLC",
+    position: "Intern – ICT Wing, Software Division",
+    duration: "3 Months",
+    description:
+      "Completed a three-month internship in the ICT Wing, Software Division. Received initial training and subsequently worked on assigned tasks related to banking IT operations.",
+    technology:
+      "Java 21, Spring Boot, Thymeleaf, Bootstrap, Git, REST API, SQL, JPA, Database Integration, Concurrency, Multithreading, Islamic Banking, Deposits, Investment, Core Banking"
+  }
+];
+
+function Experience() {
+  const [experiences, setExperiences] = useState(FALLBACK_EXPERIENCE);
+
+  useEffect(() => {
+    let active = true;
+
+    API.get("/experience")
+      .then((response) => {
+        const data = response.data;
+
+        if (active && Array.isArray(data) && data.length > 0) {
+          setExperiences(data);
+        }
+      })
+      .catch((error) => {
+        console.warn("Experience API unavailable; using local data.", error);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  return (
+    <section
+      id="experience"
+      className="min-h-screen px-8 py-20 bg-[#09090f]"
+    >
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-4xl font-bold text-center text-purple-400 mb-16">
+          Experience
+        </h2>
+
+        <div className="relative border-l border-purple-500 ml-4">
+          {experiences.map((exp) => (
+            <div key={exp.id} className="relative mb-12 ml-8">
+              <div className="absolute -left-[43px] top-6 w-6 h-6 rounded-full bg-purple-600 border-4 border-[#09090f]" />
+
+              <div className="bg-white/5 border border-white/10 rounded-3xl p-6 hover:scale-[1.02] transition">
+                <h3 className="text-2xl font-bold text-white">
+                  {exp.position}
+                </h3>
+
+                <h4 className="text-purple-400 text-lg mt-2">
+                  {exp.company}
+                </h4>
+
+                <p className="text-gray-400 mt-2">{exp.duration}</p>
+
+                <p className="text-gray-300 mt-4">{exp.description}</p>
+
+                {exp.technology && (
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {exp.technology.split(",").map((tech, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 rounded-full bg-purple-600/20 text-purple-300 text-sm"
+                      >
+                        {tech.trim()}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-
-
-
-        </section>
-
-
-    )
-
-
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }
-
-
 
 export default Experience;
