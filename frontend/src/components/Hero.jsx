@@ -81,7 +81,7 @@ function Hero() {
 
             {/* Download CV */}
             <a
-              href="https://drive.google.com/uc?export=download&id=1PYMC9ircpw3MRzUKHw45bStPk9bWNpks"
+              href="https://drive.google.com/file/d/1viVR3kQbWcm-SCxTDbwf4mTf8m3o13v5/view?usp=drive_link"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-purple-500 text-purple-300 hover:bg-purple-600 hover:text-white text-sm font-medium px-3 py-3 transition-colors"
