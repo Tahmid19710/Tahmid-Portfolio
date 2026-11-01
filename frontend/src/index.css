@@ -1,10 +1,422 @@
+
 @import "tailwindcss";
 
+/* =====================================
+   GLOBAL THEME VARIABLES
+===================================== */
+
+:root {
+  color-scheme: dark;
+
+  --page-bg: #080812;
+  --card-bg: #10101d;
+  --card-secondary: #151526;
+
+  --primary-text: #ffffff;
+  --secondary-text: #cbd5e1;
+  --muted-text: #94a3b8;
+
+  --border-color: rgba(255, 255, 255, 0.10);
+  --input-bg: #10101d;
+  --nav-bg: rgba(8, 8, 18, 0.94);
+}
+
+/* =====================================
+   LIGHT MODE VARIABLES
+===================================== */
+
+html.light {
+  color-scheme: light;
+
+  --page-bg: #f4f6fc;
+  --card-bg: #ffffff;
+  --card-secondary: #edf1fa;
+
+  --primary-text: #172033;
+  --secondary-text: #334155;
+  --muted-text: #64748b;
+
+  --border-color: rgba(15, 23, 42, 0.14);
+  --input-bg: #ffffff;
+  --nav-bg: rgba(255, 255, 255, 0.96);
+}
+
+/* =====================================
+   GLOBAL DOCUMENT
+===================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 0;
+}
 
 body {
-
-  background: #09090f;
-  color: white;
+  margin: 0;
   min-height: 100vh;
+  background: var(--page-bg);
+  color: var(--primary-text);
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease;
+}
 
+/* =====================================
+   SECTION LAYOUT
+===================================== */
+
+section[id] {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  height: auto !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding-top: clamp(2.5rem, 5vh, 4rem) !important;
+  padding-bottom: clamp(2.5rem, 5vh, 4rem) !important;
+
+  scroll-margin-top: 0 !important;
+  overflow-x: clip;
+}
+
+section[id] > div:not([class*="absolute"]) {
+  width: 100%;
+  flex: 0 1 auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+section[id] > div[class*="absolute"] {
+  pointer-events: none;
+}
+
+/* =====================================
+   DARK MODE
+===================================== */
+
+html:not(.light) body {
+  background: #080812;
+  color: #ffffff;
+}
+
+/* =====================================
+   LIGHT MODE BACKGROUNDS
+===================================== */
+
+html.light body {
+  background: var(--page-bg);
+  color: var(--primary-text);
+}
+
+html.light section[id],
+html.light [class*="bg-[#09090f]"],
+html.light [class*="bg-[#080812]"],
+html.light [class*="bg-[#0b0b18]"] {
+  background-color: var(--page-bg) !important;
+}
+
+html.light [class*="bg-[#10101d]"] {
+  background-color: var(--card-bg) !important;
+}
+
+html.light [class*="bg-white/"],
+html.light [class*="bg-white/[0.035]"],
+html.light [class*="bg-white/[0.04]"],
+html.light [class*="bg-white/[0.05]"],
+html.light [class*="bg-white/[0.055]"] {
+  background-color: #ffffff !important;
+}
+
+html.light [class*="to-[#10101d]"] {
+  background-image: none !important;
+  background-color: #ffffff !important;
+}
+
+html.light [class*="bg-purple-500/"],
+html.light [class*="bg-purple-600/"] {
+  background-color: rgba(124, 58, 237, 0.09) !important;
+}
+
+html.light [class*="bg-blue-500/"],
+html.light [class*="bg-blue-600/"] {
+  background-color: rgba(37, 99, 235, 0.09) !important;
+}
+
+html.light [class*="bg-cyan-500/"],
+html.light [class*="bg-cyan-600/"] {
+  background-color: rgba(8, 145, 178, 0.09) !important;
+}
+
+/* =====================================
+   LIGHT MODE TEXT
+===================================== */
+
+html.light .text-white {
+  color: #172033 !important;
+}
+
+html.light .text-gray-200,
+html.light .text-gray-300 {
+  color: #334155 !important;
+}
+
+html.light .text-gray-400,
+html.light .text-gray-500,
+html.light .text-gray-600 {
+  color: #64748b !important;
+}
+
+html.light [class*="text-purple-"] {
+  color: #7e22ce !important;
+}
+
+html.light [class*="text-blue-"] {
+  color: #1d4ed8 !important;
+}
+
+html.light [class*="text-cyan-"] {
+  color: #0e7490 !important;
+}
+
+html.light [class*="text-green-"] {
+  color: #15803d !important;
+}
+
+html.light .bg-clip-text.text-transparent {
+  background-image: linear-gradient(
+    90deg,
+    #7e22ce,
+    #2563eb,
+    #0e7490
+  ) !important;
+
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+/* =====================================
+   LIGHT MODE BUTTONS
+===================================== */
+
+html.light a[class*="bg-purple-"],
+html.light button[class*="bg-purple-"],
+html.light a[class*="bg-gradient"],
+html.light button[class*="bg-gradient"],
+html.light a[class*="bg-blue-"],
+html.light button[class*="bg-blue-"],
+html.light a[class*="bg-cyan-"],
+html.light button[class*="bg-cyan-"] {
+  color: #ffffff !important;
+}
+
+html.light [class*="bg-black/"] {
+  background-color: rgba(15, 23, 42, 0.88) !important;
+}
+
+html.light [class*="bg-black/"].text-white {
+  color: #ffffff !important;
+}
+
+/* =====================================
+   LIGHT MODE BORDERS
+===================================== */
+
+html.light [class*="border-white/"],
+html.light [class*="border-gray-"] {
+  border-color: rgba(15, 23, 42, 0.14) !important;
+}
+
+/* =====================================
+   LIGHT MODE INPUTS
+===================================== */
+
+html.light input,
+html.light textarea,
+html.light select {
+  background-color: #ffffff !important;
+  color: #172033 !important;
+  border-color: #cbd5e1 !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* =====================================
+   NAVIGATION
+===================================== */
+
+.portfolio-navbar {
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.35s ease;
+}
+
+html.light .portfolio-navbar {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  box-shadow: 0 5px 25px rgba(15, 23, 42, 0.07);
+}
+
+html.light .mobile-navigation {
+  background: #ffffff !important;
+}
+
+/* =====================================
+   GENERAL TRANSITIONS
+===================================== */
+
+section,
+article,
+input,
+textarea,
+button,
+a {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* =====================================
+   ACCESSIBILITY
+===================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =====================================
+   HERO BUTTONS - LIGHT MODE FIX
+   Only affects Hero section.
+===================================== */
+
+/* Get In Touch, GitHub, LinkedIn, Gmail */
+
+html.light #home a[class*="border-gray-"] {
+  background-color: #ffffff !important;
+  color: #1e293b !important;
+
+  border: 1px solid #94a3b8 !important;
+
+  box-shadow:
+    0 3px 10px rgba(15, 23, 42, 0.07);
+}
+
+/* Download CV */
+
+html.light #home a[class*="border-purple-"] {
+  background-color: #f3e8ff !important;
+  color: #6b21a8 !important;
+
+  border: 1px solid #a855f7 !important;
+
+  box-shadow:
+    0 3px 12px rgba(126, 34, 206, 0.12);
+}
+
+/* Hover effects */
+
+html.light #home a[class*="border-gray-"]:hover {
+  background-color: #e2e8f0 !important;
+  color: #5b21b6 !important;
+
+  border-color: #7c3aed !important;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 16px rgba(124, 58, 237, 0.13);
+}
+
+html.light #home a[class*="border-purple-"]:hover {
+  background-color: #e9d5ff !important;
+  color: #581c87 !important;
+
+  border-color: #7e22ce !important;
+
+  transform: translateY(-2px);
+}
+
+/* Preserve View Projects gradient */
+
+html.light #home a[class*="bg-purple-"] {
+  color: #ffffff !important;
+}
+
+/* =====================================
+   NAVBAR AUTO-HIDE
+===================================== */
+
+.portfolio-navbar {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+@media (max-width: 1023px) {
+  .portfolio-navbar {
+    transform: translateY(0) !important;
+  }
+}
+
+/* =====================================
+   HERO SOCIAL BUTTONS - LIGHT MODE
+===================================== */
+
+html.light #home a[href^="https://github.com/"],
+html.light #home a[href^="https://www.linkedin.com/"],
+html.light #home a[href^="mailto:"] {
+  background: #172033 !important;
+  color: #ffffff !important;
+  border: 1px solid #172033 !important;
+
+  box-shadow:
+    0 4px 12px rgba(15, 23, 42, 0.16) !important;
+
+  transition: all 0.3s ease !important;
+}
+
+/* Social button hover */
+
+html.light #home a[href^="https://github.com/"]:hover,
+html.light #home a[href^="https://www.linkedin.com/"]:hover,
+html.light #home a[href^="mailto:"]:hover {
+  background: #334155 !important;
+  color: #ffffff !important;
+  border-color: #7c3aed !important;
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 8px 20px rgba(124, 58, 237, 0.20) !important;
+}
+
+/* Keep all social icons white */
+
+html.light #home a[href^="https://github.com/"] *,
+html.light #home a[href^="https://www.linkedin.com/"] *,
+html.light #home a[href^="mailto:"] * {
+  color: #ffffff !important;
 }
